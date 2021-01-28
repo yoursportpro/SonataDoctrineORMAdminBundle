@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Sonata\DoctrineORMAdminBundle\Guesser;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Sonata\AdminBundle\Admin\FieldDescriptionInterface;
 use Sonata\AdminBundle\Model\ModelManagerInterface;
 use Sonata\AdminBundle\Templating\TemplateRegistry;
 use Symfony\Component\Form\Guess\Guess;
@@ -34,11 +35,11 @@ class TypeGuesser extends AbstractTypeGuesser
      * @internal
      */
     public const DEPRECATED_TYPES = [
-        'orm_one_to_many' => TemplateRegistry::TYPE_ONE_TO_MANY,
-        'orm_many_to_many' => TemplateRegistry::TYPE_MANY_TO_MANY,
-        'orm_many_to_one' => TemplateRegistry::TYPE_MANY_TO_ONE,
-        'orm_one_to_one' => TemplateRegistry::TYPE_ONE_TO_ONE,
-        'number' => TemplateRegistry::TYPE_FLOAT,
+        'orm_one_to_many' => FieldDescriptionInterface::TYPE_ONE_TO_MANY,
+        'orm_many_to_many' => FieldDescriptionInterface::TYPE_MANY_TO_MANY,
+        'orm_many_to_one' => FieldDescriptionInterface::TYPE_MANY_TO_ONE,
+        'orm_one_to_one' => FieldDescriptionInterface::TYPE_ONE_TO_ONE,
+        'number' => FieldDescriptionInterface::TYPE_FLOAT
     ];
 
     public function guessType(string $class, string $property, ModelManagerInterface $modelManager): ?TypeGuess
