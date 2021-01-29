@@ -25,6 +25,7 @@ use Sonata\AdminBundle\Filter\FilterFactoryInterface;
 use Sonata\AdminBundle\Guesser\TypeGuesserInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\Pager;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Model\MissingPropertyMetadataException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -151,7 +152,11 @@ class DatagridBuilder implements DatagridBuilderInterface
     public function addFilter(DatagridInterface $datagrid, ?string $type, FieldDescriptionInterface $fieldDescription, AdminInterface $admin): void
     {
         if (null === $type) {
-            $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            try {
+                $guessType = $this->guesser->guessType($admin->getClass(), $fieldDescription->getName(), $admin->getModelManager());
+            } catch (MissingPropertyMetadataException $e) {
+                return;
+            }
 
             $type = $guessType->getType();
 
